@@ -1,6 +1,7 @@
 
 using TaskManager.Application;
 using TaskManager.Infrastructure;
+using Scalar.AspNetCore;
 
 namespace TaskManager.Api
 {
@@ -16,7 +17,7 @@ namespace TaskManager.Api
             builder.Services.AddApplication();
             builder.Services.AddInfrastructure(builder.Configuration);
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-            builder.Services.AddOpenApi();
+            builder.Services.AddOpenApi();;
 
             var app = builder.Build();
 
@@ -24,6 +25,7 @@ namespace TaskManager.Api
             if (app.Environment.IsDevelopment())
             {
                 app.MapOpenApi();
+                app.MapScalarApiReference();
             }
 
             app.UseHttpsRedirection();
