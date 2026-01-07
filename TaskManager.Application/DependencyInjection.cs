@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using TaskManager.Application.Abstractions.Strategies;
 using TaskManager.Application.Features.Tasks.Create;
 using TaskManager.Application.Features.Tasks.Get;
 
@@ -10,6 +11,9 @@ public static class DependencyInjection
     {
         services.AddScoped<CreateTaskHandler>();
         services.AddScoped<GetTasksHandler>();
+        services.AddScoped<ITaskAssignmentStrategyResolver,
+                  TaskAssignmentStrategyResolver>();
+
         return services;
     }
 }
