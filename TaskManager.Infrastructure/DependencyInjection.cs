@@ -23,6 +23,7 @@ public static class DependencyInjection
             opt.UseInMemoryDatabase("TaskDb"));
         services.AddMemoryCache();
         services.AddScoped<ICacheService, MemoryCacheService>();
+        services.AddScoped<ITaskRepository, TaskRepository>();
 
         services.AddScoped<ManualAssignmentStrategy>();
         services.AddScoped<RoundRobinAssignmentStrategy>();
