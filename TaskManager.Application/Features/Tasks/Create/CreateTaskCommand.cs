@@ -1,3 +1,7 @@
-﻿namespace TaskManager.Application.Features.Tasks.Create;
+﻿using TaskManager.Domain.Enums;
 
-public record CreateTaskCommand(string Title);
+namespace TaskManager.Application.Features.Tasks.Create;
+
+public record CreateTaskCommand(
+    string Title,
+    AssignmentStrategyType AssignmentStrategy);

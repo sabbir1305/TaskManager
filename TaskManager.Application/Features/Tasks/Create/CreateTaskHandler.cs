@@ -1,19 +1,29 @@
 ﻿using TaskManager.Application.Abstractions.Persistence;
+using TaskManager.Application.Abstractions.Strategies;
 using TaskManager.Domain.Entities;
 
 namespace TaskManager.Application.Features.Tasks.Create;
 
 public class CreateTaskHandler
 {
-    private readonly ITaskRepository _taskRepository;
-    public CreateTaskHandler(ITaskRepository taskRepository)
+    private readonly ITaskRepository _repository;
+    private readonly ITaskAssignmentStrategyResolver _resolver;
+
+    public CreateTaskHandler(
+        ITaskRepository repository,
+        ITaskAssignmentStrategyResolver resolver)
     {
-        _taskRepository = taskRepository;
+        _repository = repository;
+        _resolver = resolver;
     }
-    public async Task<TaskItem> Handle(CreateTaskCommand command, CancellationToken ct)
+
+    public async Task Handle(CreateTaskCommand command, CancellationToken ct)
     {
-        var taskItem = new TaskItem(command.Title);
-        await _taskRepository.AddAsync(taskItem, ct);
-        return taskItem;
+        var task = new TaskItem(command.Title);
+
+        var strategy = _resolver.Resolve(command.AssignmentStrategy);
+        await strategy.AssignAsync(task, ct);
+
+        await _repository.AddAsync(task, ct);
     }
 }
