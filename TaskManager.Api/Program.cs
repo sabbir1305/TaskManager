@@ -1,7 +1,8 @@
 
+using Scalar.AspNetCore;
+using TaskManager.Api.Middleware;
 using TaskManager.Application;
 using TaskManager.Infrastructure;
-using Scalar.AspNetCore;
 
 namespace TaskManager.Api
 {
@@ -20,6 +21,8 @@ namespace TaskManager.Api
             builder.Services.AddOpenApi();
 
             var app = builder.Build();
+            app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
+
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
